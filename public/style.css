@@ -1,3 +1,9 @@
 .notification {
   display: none;
 }
+#about {
+  display: none;
+}
+.goblins {
+  margin-top: 1em;
+}

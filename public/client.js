@@ -12,6 +12,10 @@ let namesTable = document.getElementById('namesTable')
 let progressBar = document.getElementById('progressBar')
 let progress = document.getElementById('progress')
 let progressMessage = document.getElementById('progress-message')
+let buttons = document.getElementById('buttons')
+let aboutButton = document.getElementById('aboutButton')
+let about = document.getElementById('about')
+let backButton = document.getElementById('backButton')
 
 function getRandomItem(itemsArray) {
   let index = Math.floor(Math.random() * itemsArray.length)
@@ -19,7 +23,7 @@ function getRandomItem(itemsArray) {
 }
 
 function printNames() {
-  commenceButton.disabled = true
+  buttons.style.display = 'none'
   girlOutput.innerHTML = '--'
   boyOutput.innerHTML = '--'
   alienOutput.innerHTML = '--'
@@ -54,20 +58,28 @@ function printNames() {
         progressBar.value = 100
         alienOutput.innerHTML = getRandomItem(ALIENNAMES)
         clearInterval(alienProgress)
-        commenceButton.disabled = false
-        namesTable.style.opacity = "1"
-        progressMessage.innerText = "Done!"
+        namesTable.style.opacity = '1'
+        progressMessage.innerText = 'Done!'
+        buttons.style.display = 'block'
         setTimeout(function() {
-          progress.style.display = "none"
-        }, 4000)
+          progress.style.display = 'none'
+        }, 2000)
 
       }, 1500)
     }, 1500)
   }, 2000)
+}
 
+function showAbout() {
+  namesTable.style.display = "none"
+  about.style.display = "block"
+  buttons.style.display = "none"
+}
 
-
-
+function hideAbout() {
+  namesTable.style.display = "block"
+  about.style.display = "none"
+  buttons.style.display = "block"
 }
 
 function ready(fn) {
@@ -79,7 +91,7 @@ function ready(fn) {
 }
 
 ready(function() {
-
-  console.log("document Ready");
   commenceButton.addEventListener('click', printNames, false);
+  aboutButton.addEventListener('click', showAbout, false);
+  backButton.addEventListener('click', hideAbout, false);
 });
