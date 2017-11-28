@@ -14,16 +14,61 @@
 <body>
   <section class="section">
     <div class="container">
+
       <h1 class="title">Goblin Namer</h1>
-      <img class="goblins" src="https://cdn.glitch.com/178aa87a-a770-46fc-be61-8baa289cdca9%2Fstf69_goblin1.jpg?1511845587696">
-      <button type="button" class="button is-medium is-primary" name="girl" id="girlButton">girl</button>
-      <button type="button" class="button is-medium is-primary" name="boy" id="boyButton">boy</button>
-      <div class="output">
-        <p id="name">
-          name
+
+      <div id="namesBox">
+        <button class="button is-primary" id="commenceButton">commence</button>
+        <table class="table" id="namesTable">
+          <thead>
+            <tr>
+              <th>
+                Type
+              </th>
+              <th>
+                Result
+              </th>
+            </tr>
+          </thead>
+          <tbody class="is-size-4">
+            <tr>
+              <td>
+                girl
+              </td>
+              <td id="girlOutput">
+                --
+              </td>
+            </tr>
+            <tr>
+              <td>
+                boy
+              </td>
+              <td id="boyOutput">
+                --
+              </td>
+            </tr>
+            <tr>
+              <td>
+                alien
+              </td>
+              <td id="alienOutput">
+                --
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="notification is-info" id="progress">
+        <p>
+          Mind-reading goblins are
         </p>
+        <p id="progress-message">
+          determining ideal names.
+        </p>
+        <progress id="progressBar" class="progress is-primary" value="0" max="100">75%</progress>
       </div>
     </div>
+
   </section>
 </body>
 
