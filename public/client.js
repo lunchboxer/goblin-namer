@@ -85,7 +85,7 @@ function getNamesLists(year = 2016) {
           buttons.style.display = 'block'
           setTimeout(function() {
             progress.style.display = 'none'
-          }, 1500)
+          }, 2000)
         })
     })
 }
@@ -138,7 +138,7 @@ function printNames() {
         buttons.style.display = 'block'
         setTimeout(function() {
           progress.style.display = 'none'
-        }, 1500)
+        }, 2000)
 
       }, 1000)
     }, 1000)
