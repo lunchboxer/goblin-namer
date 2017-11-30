@@ -32,6 +32,14 @@ let backButton = document.getElementById('backButton')
 
 // year : four digit year from 1880-2016
 function getNamesLists(year = 2016) {
+  buttons.style.display = 'none'
+  progress.style.display = "block"
+  progressMessage.innerText = "fetching all names."
+  var getProgress = setInterval(function() {
+    let start = 0
+    let end = 50
+    progressBar.value = Math.floor(Math.random() * end) + start
+  }, 50);
   const FILENAME = 'names/yob' + year + ".txt"
   var request = new Request(FILENAME, {
     headers: new Headers({
@@ -41,7 +49,13 @@ function getNamesLists(year = 2016) {
 
   fetch(request).then(res => res.text())
     .then(res => {
-
+      clearInterval(getProgress)
+      progressMessage.innerText = "parsing names."
+      var parseProgress = setInterval(function() {
+        let start = 50
+        let end = 100
+        progressBar.value = Math.floor(Math.random() * end) + start
+      }, 50);
       let csvfile = res
       csv({
           noheader: true,
@@ -64,7 +78,13 @@ function getNamesLists(year = 2016) {
         })
         .on('done', (error) => {
           console.log("done parsing names")
-          commenceButton.disabled = false
+          clearInterval(parseProgress)
+          progressBar.value = 100
+          progressMessage.innerText = 'Ready!'
+          buttons.style.display = 'block'
+          setTimeout(function() {
+            progress.style.display = 'none'
+          }, 2000)
         })
     })
 }
@@ -88,7 +108,7 @@ function printNames() {
     let start = 0
     let end = 30
     progressBar.value = Math.floor(Math.random() * end) + start
-  }, 10);
+  }, 50);
 
   setTimeout(function() {
     girlOutput.innerHTML = rwc(girlNames, weighting)
@@ -98,7 +118,7 @@ function printNames() {
       let start = 30
       let end = 65
       progressBar.value = Math.floor(Math.random() * (end - start)) + start
-    }, 10);
+    }, 50);
     setTimeout(function() {
       boyOutput.innerHTML = rwc(boyNames, weighting)
       progressMessage.innerText = "determining alien name."
@@ -107,7 +127,7 @@ function printNames() {
         let start = 65
         let end = 100
         progressBar.value = Math.floor(Math.random() * end) + start
-      }, 10);
+      }, 50);
       setTimeout(function() {
         progressBar.value = 100
         alienOutput.innerHTML = getRandomItem(ALIENNAMES)
@@ -119,9 +139,9 @@ function printNames() {
           progress.style.display = 'none'
         }, 2000)
 
-      }, 1500)
-    }, 1500)
-  }, 2000)
+      }, 1000)
+    }, 1000)
+  }, 1000)
 }
 
 function showAbout() {
