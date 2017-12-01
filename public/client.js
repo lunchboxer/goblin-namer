@@ -8,7 +8,7 @@ const rwc = require('random-weighted-choice');
 // default settings
 let year = 2016 // four digit year from 1880-2016
 let weighting = 10 // 0-100, favoring popular to favoring unpopular
-let percentage = 20 // use most popular x percentage of names
+let percentage = 3 // use most popular x percentage of names
 
 let nameF = ''
 let nameM = ''
