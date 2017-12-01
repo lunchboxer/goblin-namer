@@ -35,8 +35,9 @@
       <h1 class="title">Goblin Namer</h1>
 
       <div class="buttons" id="buttons">
-        <button class="button is-primary" id="commenceButton">commence</button>
+        <button class="button is-primary" id="commenceButton">go</button>
         <button class="button is-info" id="aboutButton">about</button>
+        <button class="button" name="settings" id="settingsButton">settings</button>
       </div>
 
       <table class="table" id="namesTable">
@@ -80,12 +81,51 @@
 
       <div id="about">
         <button id="backButton" class="button is-link">Ok</button>
-        <div class="box goblins">
+        <div class="box">
           <img src="https://cdn.glitch.com/178aa87a-a770-46fc-be61-8baa289cdca9%2Fstf69_goblin1.jpg?1511845587696">
           <p>
             This tool employs a team of mind-reading goblins to determine the best girl, boy, and alien names automatically. The goblins currently choose from list of all registered names from births in a given year in the United States with more than 5 occurances.
             Selection is weighted by actual popularity. Names come from <a href="https://catalog.data.gov/dataset/baby-names-from-social-security-card-applications-national-level-data">data.gov</a>.
           </p>
+        </div>
+      </div>
+
+      <div id="settings">
+        <button id="closeSettingsButton" class="button is-link">ok</button>
+        <div class="box">
+
+          <!-- year -->
+          <div class="field full">
+            <label class="label">Year: <span id="yearOutput"></span></label>
+            <div class="control">
+              <input type="range" min="1880" max="2016" value="2016" class="slider" id="yearSlider">
+            </div>
+          </div>
+
+          <!-- weighting factor -->
+          <div class="field full">
+            <label class="label">Weighting: <span id="weightingOutput"></span></label>
+            <div class="control">
+              <input type="range" min="0" max="100" value="10" class="slider" id="weightingSlider">
+            </div>
+          </div>
+
+          <!-- most popular -->
+          <div class="field full">
+            <label class="label">Use most popular <span id="percentageOutput"></span>%</label>
+            <div class="control">
+              <input type="range" min="1" max="100" value="20" class="slider" id="percentageSlider">
+            </div>
+          </div>
+
+          <!-- first letter -->
+          <!-- <div class="field full">
+            <label class="label">Begins with</label>
+            <div class="control">
+              <input type="text" value="" class="input" id="firstLettersInput">
+            </div>
+          </div> -->
+
         </div>
       </div>
 

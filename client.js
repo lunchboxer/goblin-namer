@@ -4,8 +4,10 @@
 const csv = require('csvtojson')
 const rwc = require('random-weighted-choice');
 
+// default settings
 let year = 2016 // four digit year from 1880-2016
 let weighting = 10 // 0-100, favoring popular to favoring unpopular
+let percentage = 20 // use most popular x percentage of names
 
 let nameF = ''
 let nameM = ''
@@ -28,10 +30,19 @@ let buttons = document.getElementById('buttons')
 let aboutButton = document.getElementById('aboutButton')
 let about = document.getElementById('about')
 let backButton = document.getElementById('backButton')
+let closeSettingsButton = document.getElementById('closeSettingsButton')
+let settingsButton = document.getElementById('settingsButton')
+let yearSlider = document.getElementById("yearSlider")
+let yearOutput = document.getElementById("yearOutput")
+let weightingSlider = document.getElementById("weightingSlider")
+let weightingOutput = document.getElementById("weightingOutput")
+let percentageSlider = document.getElementById("percentageSlider")
+let percentageOutput = document.getElementById("percentageOutput")
 
 
 // year : four digit year from 1880-2016
 function getNamesLists(year = 2016) {
+  console.log("getting names from year", year)
   buttons.style.display = 'none'
   progress.style.display = "block"
   progressMessage.innerText = "fetching all names."
@@ -84,11 +95,10 @@ function getNamesLists(year = 2016) {
           buttons.style.display = 'block'
           setTimeout(function() {
             progress.style.display = 'none'
-          }, 2000)
+          }, 1000)
         })
     })
 }
-
 
 
 function getRandomItem(itemsArray) {
@@ -96,7 +106,17 @@ function getRandomItem(itemsArray) {
   return itemsArray[index]
 }
 
+// reduce names list to most popular x percent
+function cropList(nameslist, percentage) {
+  let newLength = Math.ceil(nameslist.length * (percentage / 100))
+  console.log("nameslist length was", nameslist.length)
+  console.log("trimming to", percentage + "%")
+  console.log("newLength is", newLength)
+  return nameslist.slice(0, newLength)
+}
+
 function printNames() {
+  console.log("chosing names using weighting factor of", weighting)
   buttons.style.display = 'none'
   girlOutput.innerHTML = '--'
   boyOutput.innerHTML = '--'
@@ -111,7 +131,8 @@ function printNames() {
   }, 50);
 
   setTimeout(function() {
-    girlOutput.innerHTML = rwc(girlNames, weighting)
+    let someGirlNames = cropList(girlNames, percentage)
+    girlOutput.innerHTML = rwc(someGirlNames, weighting)
     progressMessage.innerText = "determining boy name."
     clearInterval(girlProgress)
     var boyProgress = setInterval(function() {
@@ -120,7 +141,8 @@ function printNames() {
       progressBar.value = Math.floor(Math.random() * (end - start)) + start
     }, 50);
     setTimeout(function() {
-      boyOutput.innerHTML = rwc(boyNames, weighting)
+      let someBoyNames = cropList(boyNames, percentage)
+      boyOutput.innerHTML = rwc(someBoyNames, weighting)
       progressMessage.innerText = "determining alien name."
       clearInterval(boyProgress)
       var alienProgress = setInterval(function() {
@@ -137,7 +159,7 @@ function printNames() {
         buttons.style.display = 'block'
         setTimeout(function() {
           progress.style.display = 'none'
-        }, 2000)
+        }, 1000)
 
       }, 1000)
     }, 1000)
@@ -150,23 +172,63 @@ function showAbout() {
   buttons.style.display = "none"
 }
 
-function hideAbout() {
+function closeAbout() {
   namesTable.style.display = "block"
   about.style.display = "none"
   buttons.style.display = "block"
 }
 
+function showSettings() {
+  namesTable.style.display = "none"
+  settings.style.display = "block"
+  buttons.style.display = "none"
+}
+
+function closeSettings() {
+  namesTable.style.display = "block"
+  settings.style.display = "none"
+  buttons.style.display = "block"
+  if (newYearSetting !== year) {
+    year = newYearSetting
+    getNamesLists(year)
+  }
+}
+
 function ready(fn) {
   if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-    fn();
+    fn()
   } else {
-    document.addEventListener('DOMContentLoaded', fn);
+    document.addEventListener('DOMContentLoaded', fn)
   }
+}
+
+yearSlider.value = year
+yearOutput.innerHTML = yearSlider.value
+let newYearSetting = year
+yearSlider.oninput = function() {
+  newYearSetting = this.value
+  yearOutput.innerHTML = newYearSetting
+}
+
+weightingSlider.value = weighting
+weightingOutput.innerHTML = weightingSlider.value
+weightingSlider.oninput = function() {
+  weighting = this.value
+  weightingOutput.innerHTML = this.value
+}
+
+percentageSlider.value = percentage
+percentageOutput.innerHTML = percentageSlider.value
+percentageSlider.oninput = function() {
+  percentage = this.value
+  percentageOutput.innerHTML = this.value
 }
 
 ready(function() {
   getNamesLists(2016)
-  commenceButton.addEventListener('click', printNames, false);
-  aboutButton.addEventListener('click', showAbout, false);
-  backButton.addEventListener('click', hideAbout, false);
-});
+  commenceButton.addEventListener('click', printNames, false)
+  aboutButton.addEventListener('click', showAbout, false)
+  backButton.addEventListener('click', closeAbout, false)
+  settingsButton.addEventListener('click', showSettings, false)
+  closeSettingsButton.addEventListener('click', closeSettings, false)
+})
