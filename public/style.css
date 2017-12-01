@@ -9,6 +9,7 @@
 }
 .box {
   margin-top: 1em;
+  max-width: 400px;
 }
 footer {
   padding-top: 1em;
